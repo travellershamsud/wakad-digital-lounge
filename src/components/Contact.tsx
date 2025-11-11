@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Mail, Clock, Instagram, Facebook } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter, Linkedin, Youtube, Music2 } from "lucide-react";
 import qrCode from "@/assets/qr-code.png";
 
 export const Contact = () => {
@@ -71,12 +71,24 @@ export const Contact = () => {
 
             <Card className="p-6 bg-card border-border">
               <h3 className="font-bold text-lg mb-3">Follow Us</h3>
-              <div className="flex gap-4">
+              <div className="grid grid-cols-3 gap-3">
                 <Button variant="outline" size="icon" className="border-primary text-primary hover:bg-primary/10">
                   <Instagram className="w-5 h-5" />
                 </Button>
                 <Button variant="outline" size="icon" className="border-secondary text-secondary hover:bg-secondary/10">
                   <Facebook className="w-5 h-5" />
+                </Button>
+                <Button variant="outline" size="icon" className="border-accent text-accent hover:bg-accent/10">
+                  <Twitter className="w-5 h-5" />
+                </Button>
+                <Button variant="outline" size="icon" className="border-primary text-primary hover:bg-primary/10">
+                  <Linkedin className="w-5 h-5" />
+                </Button>
+                <Button variant="outline" size="icon" className="border-secondary text-secondary hover:bg-secondary/10">
+                  <Youtube className="w-5 h-5" />
+                </Button>
+                <Button variant="outline" size="icon" className="border-accent text-accent hover:bg-accent/10">
+                  <Music2 className="w-5 h-5" />
                 </Button>
               </div>
             </Card>

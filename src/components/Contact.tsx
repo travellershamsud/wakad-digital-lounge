@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter, Linkedin, Youtube, Music2 } from "lucide-react";
-import qrCode from "@/assets/qr-code.png";
+import menuQrCode from "@/assets/menu-qr-code.png";
+import addressQrCode from "@/assets/address-qr-code.png";
 
 export const Contact = () => {
   return (
@@ -94,23 +95,34 @@ export const Contact = () => {
             </Card>
           </div>
 
-          {/* QR Code */}
-          <div className="flex flex-col items-center justify-center">
-            <Card className="p-8 bg-card border-border text-center">
-              <h3 className="text-2xl font-bold mb-4">Quick Access</h3>
-              <p className="text-muted-foreground mb-6">
-                Scan to view our full menu and make reservations
+          {/* QR Codes */}
+          <div className="flex flex-col gap-6">
+            <Card className="p-6 bg-card border-border text-center">
+              <h3 className="text-xl font-bold mb-3">View Our Menu</h3>
+              <p className="text-muted-foreground mb-4 text-sm">
+                Scan to access our full menu
               </p>
-              <div className="inline-block p-4 bg-background rounded-lg neon-border">
+              <div className="inline-block p-3 bg-background rounded-lg neon-border">
                 <img 
-                  src={qrCode} 
-                  alt="LIVE QR Code" 
-                  className="w-64 h-64 mx-auto"
+                  src={menuQrCode} 
+                  alt="Menu QR Code" 
+                  className="w-48 h-48 mx-auto"
                 />
               </div>
-              <p className="text-sm text-muted-foreground mt-6">
-                Scan with your phone camera
+            </Card>
+
+            <Card className="p-6 bg-card border-border text-center">
+              <h3 className="text-xl font-bold mb-3">Get Directions</h3>
+              <p className="text-muted-foreground mb-4 text-sm">
+                Scan to navigate to LIVE
               </p>
+              <div className="inline-block p-3 bg-background rounded-lg neon-border">
+                <img 
+                  src={addressQrCode} 
+                  alt="Address QR Code" 
+                  className="w-48 h-48 mx-auto"
+                />
+              </div>
             </Card>
           </div>
         </div>

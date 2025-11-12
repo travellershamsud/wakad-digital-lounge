@@ -3,8 +3,15 @@ import { ArrowRight, Music, Utensils, Code2 } from "lucide-react";
 import liveLogo from "@/assets/live-logo.jpg";
 
 export const Hero = () => {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated background grid */}
       <div className="absolute inset-0 bg-background">
         <div className="absolute inset-0" style={{
@@ -56,6 +63,7 @@ export const Hero = () => {
           <Button 
             size="lg" 
             className="bg-gradient-neon text-background font-bold text-lg px-8 hover:scale-105 transition-transform"
+            onClick={() => scrollToSection("contact")}
           >
             Reserve Table <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
@@ -63,6 +71,7 @@ export const Hero = () => {
             size="lg" 
             variant="outline" 
             className="border-2 border-primary text-primary hover:bg-primary/10 font-bold text-lg px-8"
+            onClick={() => scrollToSection("menu")}
           >
             View Menu
           </Button>

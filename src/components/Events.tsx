@@ -34,7 +34,7 @@ export const Events = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-gradient-dark relative overflow-hidden">
+    <section id="events" className="py-20 px-4 bg-gradient-dark relative overflow-hidden">
       {/* Decorative glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
         <div className="absolute top-0 right-1/4 w-72 h-72 bg-secondary/10 rounded-full blur-3xl" />

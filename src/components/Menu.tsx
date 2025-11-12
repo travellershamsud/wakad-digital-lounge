@@ -28,7 +28,7 @@ export const Menu = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-background">
+    <section id="menu" className="py-20 px-4 bg-background">
       <div className="container mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-neon bg-clip-text text-transparent" 

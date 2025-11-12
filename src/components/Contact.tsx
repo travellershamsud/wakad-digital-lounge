@@ -1,8 +1,9 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter, Linkedin, Youtube, Music2 } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter, Linkedin, Youtube, Music2, Globe } from "lucide-react";
 import menuQrCode from "@/assets/menu-qr-code.png";
 import addressQrCode from "@/assets/address-qr-code.png";
+import { ReservationForm } from "./ReservationForm";
 
 export const Contact = () => {
   return (
@@ -60,11 +61,17 @@ export const Contact = () => {
                 <div>
                   <h3 className="font-bold text-lg mb-1">Contact</h3>
                   <p className="text-muted-foreground mb-2">
-                    +91 XXX XXX XXXX
+                    9881241411
                   </p>
-                  <div className="flex items-center gap-2 text-muted-foreground">
+                  <div className="flex items-center gap-2 text-muted-foreground mb-2">
                     <Mail className="w-4 h-4" />
-                    <span className="text-sm">hello@livepune.com</span>
+                    <span className="text-sm">info@thelive.bar</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Globe className="w-4 h-4" />
+                    <a href="https://www.thelive.bar" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-primary transition-colors">
+                      www.thelive.bar
+                    </a>
                   </div>
                 </div>
               </div>
@@ -127,17 +134,9 @@ export const Contact = () => {
           </div>
         </div>
 
-        {/* Reservation CTA */}
-        <div className="text-center mt-12">
-          <Button 
-            size="lg" 
-            className="bg-gradient-neon text-background font-bold text-lg px-12 hover:scale-105 transition-transform"
-          >
-            Reserve Your Table Now
-          </Button>
-          <p className="text-sm text-muted-foreground mt-4">
-            Walk-ins welcome, but reservations recommended for weekends
-          </p>
+        {/* Reservation Form */}
+        <div className="mt-16">
+          <ReservationForm />
         </div>
       </div>
     </section>

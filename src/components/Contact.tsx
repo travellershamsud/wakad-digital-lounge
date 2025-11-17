@@ -134,6 +134,25 @@ export const Contact = () => {
           </div>
         </div>
 
+        {/* Google Maps */}
+        <div className="mt-16">
+          <Card className="p-6 bg-card border-border">
+            <h3 className="text-2xl font-bold mb-4 text-center">Find Us Here</h3>
+            <div className="w-full h-[400px] rounded-lg overflow-hidden neon-border">
+              <iframe
+                src="https://maps.google.com/maps?q=Wakad-Hinjewadi+Road,+Pune,+Maharashtra+411057,+India&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="LIVE Restaurant Location"
+              />
+            </div>
+          </Card>
+        </div>
+
         {/* Reservation Form */}
         <div className="mt-16">
           <ReservationForm />

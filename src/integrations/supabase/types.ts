@@ -14,6 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
+      beverages: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string | null
+          id: number
+          name: string
+          sizes: Json
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          name: string
+          sizes?: Json
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          name?: string
+          sizes?: Json
+        }
+        Relationships: []
+      }
+      menu_items: {
+        Row: {
+          available: boolean | null
+          category: string | null
+          description: string | null
+          id: number
+          image_url: string | null
+          name: string
+          price: number | null
+        }
+        Insert: {
+          available?: boolean | null
+          category?: string | null
+          description?: string | null
+          id?: number
+          image_url?: string | null
+          name: string
+          price?: number | null
+        }
+        Update: {
+          available?: boolean | null
+          category?: string | null
+          description?: string | null
+          id?: number
+          image_url?: string | null
+          name?: string
+          price?: number | null
+        }
+        Relationships: []
+      }
+      menu_items_price_backup: {
+        Row: {
+          backup_date: string | null
+          id: number | null
+          name: string | null
+          price: number | null
+        }
+        Insert: {
+          backup_date?: string | null
+          id?: number | null
+          name?: string | null
+          price?: number | null
+        }
+        Update: {
+          backup_date?: string | null
+          id?: number | null
+          name?: string | null
+          price?: number | null
+        }
+        Relationships: []
+      }
       reservations: {
         Row: {
           created_at: string
@@ -56,12 +134,115 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          admin_reply: string | null
+          admin_reply_at: string | null
+          created_at: string | null
+          customer_name: string
+          customer_phone: string | null
+          id: number
+          is_approved: boolean | null
+          menu_item_id: number
+          photo_urls: string[] | null
+          rating: number
+          review_text: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          admin_reply?: string | null
+          admin_reply_at?: string | null
+          created_at?: string | null
+          customer_name: string
+          customer_phone?: string | null
+          id?: number
+          is_approved?: boolean | null
+          menu_item_id: number
+          photo_urls?: string[] | null
+          rating: number
+          review_text?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          admin_reply?: string | null
+          admin_reply_at?: string | null
+          created_at?: string | null
+          customer_name?: string
+          customer_phone?: string | null
+          id?: number
+          is_approved?: boolean | null
+          menu_item_id?: number
+          photo_urls?: string[] | null
+          rating?: number
+          review_text?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_menu_item_id_fkey"
+            columns: ["menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "menu_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_menu_item_id_fkey"
+            columns: ["menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "menu_items_with_ratings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          is_active: boolean | null
+          password: string | null
+          role: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          is_active?: boolean | null
+          password?: string | null
+          role: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          is_active?: boolean | null
+          password?: string | null
+          role?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      menu_items_with_ratings: {
+        Row: {
+          available: boolean | null
+          avg_rating: number | null
+          category: string | null
+          description: string | null
+          id: number | null
+          image_url: string | null
+          is_most_recommended: boolean | null
+          name: string | null
+          positive_reviews: number | null
+          price: number | null
+          review_count: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: { Args: { user_id: string }; Returns: string }
+      is_admin: { Args: { user_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never

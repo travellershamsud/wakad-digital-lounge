@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { LogOut, Calendar, Clock, Users, Phone, Mail } from "lucide-react";
+import { LogOut, Calendar, Clock, Users, Phone, Mail, Edit } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Reservation = Tables<"reservations">;
@@ -118,12 +118,18 @@ export default function AdminDashboard() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold">LIVE Admin Dashboard</h1>
-            <p className="text-sm text-muted-foreground">Manage reservations</p>
+            <p className="text-sm text-muted-foreground">Manage reservations and content</p>
           </div>
-          <Button variant="outline" onClick={handleLogout}>
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => navigate("/admin/content")}>
+              <Edit className="w-4 h-4 mr-2" />
+              Edit Website Content
+            </Button>
+            <Button variant="outline" onClick={handleLogout}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 

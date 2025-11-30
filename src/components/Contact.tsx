@@ -1,11 +1,48 @@
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter, Linkedin, Youtube, Music2, Globe } from "lucide-react";
 import menuQrCode from "@/assets/menu-qr-code.png";
 import addressQrCode from "@/assets/address-qr-code.png";
 import { ReservationForm } from "./ReservationForm";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Contact = () => {
+  const [contactInfo, setContactInfo] = useState({
+    address: "Wakad-Hinjewadi Road, Pune, Maharashtra 411057, India",
+    phone: "9881241411",
+    email: "info@thelive.bar",
+    hours: "Mon-Sun: 6:00 PM - 2:00 AM"
+  });
+
+  useEffect(() => {
+    fetchContactInfo();
+  }, []);
+
+  const fetchContactInfo = async () => {
+    const { data, error } = await supabase
+      .from("site_content")
+      .select("*")
+      .eq("section_key", "contact_info")
+      .single();
+
+    if (data && !error) {
+      const metadata = data.metadata as {
+        address?: string;
+        phone?: string;
+        email?: string;
+        hours?: string;
+      } || {};
+      
+      setContactInfo({
+        address: metadata.address || contactInfo.address,
+        phone: metadata.phone || contactInfo.phone,
+        email: metadata.email || contactInfo.email,
+        hours: metadata.hours || contactInfo.hours
+      });
+    }
+  };
+
   return (
     <section id="contact" className="py-20 px-4 bg-background">
       <div className="container mx-auto">
@@ -29,9 +66,8 @@ export const Contact = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-lg mb-1">Location</h3>
-                  <p className="text-muted-foreground">
-                    Wakad-Hinjewadi Road<br />
-                    Pune, Maharashtra 411057
+                  <p className="text-muted-foreground whitespace-pre-line">
+                    {contactInfo.address}
                   </p>
                 </div>
               </div>
@@ -44,10 +80,8 @@ export const Contact = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-lg mb-1">Hours</h3>
-                  <p className="text-muted-foreground">
-                    Monday - Thursday: 5 PM - 11 PM<br />
-                    Friday - Saturday: 5 PM - 1 AM<br />
-                    Sunday: 12 PM - 11 PM
+                  <p className="text-muted-foreground whitespace-pre-line">
+                    {contactInfo.hours}
                   </p>
                 </div>
               </div>
@@ -61,11 +95,11 @@ export const Contact = () => {
                 <div>
                   <h3 className="font-bold text-lg mb-1">Contact</h3>
                   <p className="text-muted-foreground mb-2">
-                    9881241411
+                    {contactInfo.phone}
                   </p>
                   <div className="flex items-center gap-2 text-muted-foreground mb-2">
                     <Mail className="w-4 h-4" />
-                    <span className="text-sm">info@thelive.bar</span>
+                    <span className="text-sm">{contactInfo.email}</span>
                   </div>
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Globe className="w-4 h-4" />
@@ -140,7 +174,7 @@ export const Contact = () => {
             <h3 className="text-2xl font-bold mb-4 text-center">Find Us Here</h3>
             <div className="w-full h-[400px] rounded-lg overflow-hidden neon-border">
               <iframe
-                src="https://maps.google.com/maps?q=Wakad-Hinjewadi+Road,+Pune,+Maharashtra+411057,+India&output=embed"
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(contactInfo.address)}&output=embed`}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

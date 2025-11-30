@@ -1,6 +1,32 @@
+import { useEffect, useState } from "react";
 import { Code2, Music2, Users, Sparkles } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const About = () => {
+  const [content, setContent] = useState({
+    title: "Where Code Meets Cuisine",
+    description: "LIVE is Pune's first tech-themed bar and restaurant, creating a unique fusion of innovation, entertainment, and exceptional hospitality"
+  });
+
+  useEffect(() => {
+    fetchAboutContent();
+  }, []);
+
+  const fetchAboutContent = async () => {
+    const { data, error } = await supabase
+      .from("site_content")
+      .select("*")
+      .eq("section_key", "about")
+      .single();
+
+    if (data && !error) {
+      setContent({
+        title: data.title || content.title,
+        description: data.content || content.description
+      });
+    }
+  };
+
   const features = [
     {
       icon: Code2,
@@ -37,11 +63,10 @@ export const About = () => {
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 neon-text" style={{ fontFamily: 'Orbitron, sans-serif' }}>
-            Where Code Meets Cuisine
+            {content.title}
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            LIVE is Pune's first tech-themed bar and restaurant, creating a unique fusion of 
-            innovation, entertainment, and exceptional hospitality
+            {content.description}
           </p>
         </div>
 

@@ -1,8 +1,41 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Music, Utensils, Code2 } from "lucide-react";
 import liveLogo from "@/assets/live-logo.jpg";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Hero = () => {
+  const [content, setContent] = useState({
+    title: "Experience the Ultimate Nightlife",
+    subtitle: "Live Music • Delicious Food • Vibrant Atmosphere",
+    content: "Join us for an unforgettable evening of great food, drinks, and entertainment",
+    ctaText: "Reserve Your Table",
+    ctaLink: "#reservations"
+  });
+
+  useEffect(() => {
+    fetchHeroContent();
+  }, []);
+
+  const fetchHeroContent = async () => {
+    const { data, error } = await supabase
+      .from("site_content")
+      .select("*")
+      .eq("section_key", "hero")
+      .single();
+
+    if (data && !error) {
+      const metadata = data.metadata as { cta_text?: string; cta_link?: string } || {};
+      setContent({
+        title: data.title || content.title,
+        subtitle: data.subtitle || content.subtitle,
+        content: data.content || content.content,
+        ctaText: metadata.cta_text || content.ctaText,
+        ctaLink: metadata.cta_link || content.ctaLink
+      });
+    }
+  };
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {

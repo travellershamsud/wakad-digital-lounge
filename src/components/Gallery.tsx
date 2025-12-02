@@ -4,11 +4,6 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 const galleryImages = [
   {
-    src: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800",
-    alt: "Bar ambiance with neon lights",
-    caption: "Neon-lit Bar Experience"
-  },
-  {
     src: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800",
     alt: "Craft cocktails",
     caption: "Signature Cocktails"

@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showAdminButton, setShowAdminButton] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,6 +16,17 @@ export const Navigation = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === "A") {
+        e.preventDefault();
+        setShowAdminButton((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -66,6 +80,17 @@ export const Navigation = () => {
             >
               Reserve Table
             </Button>
+            {showAdminButton && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate("/admin/login")}
+                className="text-muted-foreground hover:text-primary"
+                title="Admin Login"
+              >
+                <Shield className="w-5 h-5" />
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -95,6 +120,16 @@ export const Navigation = () => {
             >
               Reserve Table
             </Button>
+            {showAdminButton && (
+              <Button
+                variant="ghost"
+                onClick={() => navigate("/admin/login")}
+                className="w-full mt-2 text-muted-foreground hover:text-primary"
+              >
+                <Shield className="w-4 h-4 mr-2" />
+                Admin Login
+              </Button>
+            )}
           </div>
         )}
       </div>

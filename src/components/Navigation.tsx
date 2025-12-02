@@ -20,7 +20,8 @@ export const Navigation = () => {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === "A") {
+      // Check for Ctrl+Shift+A (case-insensitive)
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
         e.preventDefault();
         setShowAdminButton((prev) => !prev);
       }

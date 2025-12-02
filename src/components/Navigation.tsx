@@ -41,6 +41,8 @@ export const Navigation = () => {
   const navItems = [
     { label: "Home", id: "home" },
     { label: "About", id: "about" },
+    { label: "Gallery", id: "gallery" },
+    { label: "Specials", id: "specials" },
     { label: "Menu", id: "menu" },
     { label: "Events", id: "events" },
     { label: "Contact", id: "contact" },

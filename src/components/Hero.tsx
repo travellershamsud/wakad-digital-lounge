@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Music, Utensils, Code2 } from "lucide-react";
-import liveLogo from "@/assets/live-logo.jpg";
 import { supabase } from "@/integrations/supabase/client";
+import { AnimatedLogo } from "./AnimatedLogo";
 
 export const Hero = () => {
   const [content, setContent] = useState({
@@ -60,14 +60,16 @@ export const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
 
       <div className="container relative z-10 px-4 py-20 mx-auto text-center">
-        {/* Logo */}
-        <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-          <img 
-            src={liveLogo} 
-            alt="LIVE - Eat. Drink. Code. Repeat" 
-            className="mx-auto max-w-full w-full md:w-3/4 lg:w-2/3 neon-border rounded-lg"
-          />
+        {/* Animated Logo */}
+        <div className="mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <AnimatedLogo size="lg" />
         </div>
+        
+        {/* Tagline under logo */}
+        <p className="text-lg md:text-xl text-primary/80 mb-8 tracking-[0.3em] uppercase animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100"
+           style={{ fontFamily: 'Orbitron, sans-serif' }}>
+          Eat • Drink • Code • Repeat
+        </p>
 
         {/* Tagline */}
         <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-200" 

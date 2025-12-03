@@ -3,7 +3,6 @@ import { Menu, X, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
-import { AnimatedLogo } from "./AnimatedLogo";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,8 +58,12 @@ export const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <button onClick={() => scrollToSection("home")}>
-            <AnimatedLogo size="sm" />
+          <button 
+            onClick={() => scrollToSection("home")}
+            className="text-xl font-bold"
+            style={{ fontFamily: "Orbitron, sans-serif" }}
+          >
+            <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">LIVE</span>
           </button>
 
           {/* Desktop Navigation */}

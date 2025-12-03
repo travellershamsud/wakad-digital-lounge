@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Music, Utensils, Code2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { AnimatedLogo } from "./AnimatedLogo";
+import liveNeonLogo from "@/assets/live-neon-logo.jpg";
 
 export const Hero = () => {
   const [content, setContent] = useState({
@@ -45,9 +45,26 @@ export const Hero = () => {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated background grid */}
-      <div className="absolute inset-0 bg-background">
-        <div className="absolute inset-0" style={{
+      {/* Rain effect background */}
+      <div className="absolute inset-0 bg-background overflow-hidden">
+        {/* Animated rain drops */}
+        <div className="rain-container absolute inset-0">
+          {[...Array(50)].map((_, i) => (
+            <div
+              key={i}
+              className="rain-drop absolute w-[1px] bg-gradient-to-b from-transparent via-primary/20 to-transparent"
+              style={{
+                left: `${Math.random() * 100}%`,
+                height: `${30 + Math.random() * 70}px`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${0.8 + Math.random() * 0.4}s`,
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Grid overlay */}
+        <div className="absolute inset-0 opacity-30" style={{
           backgroundImage: `
             linear-gradient(hsl(189 100% 50% / 0.1) 1px, transparent 1px),
             linear-gradient(90deg, hsl(189 100% 50% / 0.1) 1px, transparent 1px)
@@ -60,16 +77,23 @@ export const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
 
       <div className="container relative z-10 px-4 py-20 mx-auto text-center">
-        {/* Animated Logo */}
-        <div className="mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-          <AnimatedLogo size="lg" />
+        {/* Neon Logo */}
+        <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div className="relative inline-block">
+            {/* Glow effect */}
+            <div 
+              className="absolute inset-0 blur-2xl opacity-60"
+              style={{
+                background: "radial-gradient(circle, hsl(189 100% 50% / 0.5) 0%, hsl(300 100% 50% / 0.5) 100%)",
+              }}
+            />
+            <img 
+              src={liveNeonLogo} 
+              alt="LIVE - Eat. Drink. Code. Repeat" 
+              className="relative max-w-full w-full md:w-[500px] lg:w-[600px] mx-auto neon-border rounded-lg"
+            />
+          </div>
         </div>
-        
-        {/* Tagline under logo */}
-        <p className="text-lg md:text-xl text-primary/80 mb-8 tracking-[0.3em] uppercase animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100"
-           style={{ fontFamily: 'Orbitron, sans-serif' }}>
-          Eat • Drink • Code • Repeat
-        </p>
 
         {/* Tagline */}
         <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-200" 

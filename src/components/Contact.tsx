@@ -12,7 +12,14 @@ export const Contact = () => {
     address: "Wakad-Hinjewadi Road, Pune, Maharashtra 411057, India",
     phone: "9881241411",
     email: "info@thelive.bar",
-    hours: "Mon-Sun: 6:00 PM - 2:00 AM"
+    hours: "Mon-Sun: 6:00 PM - 2:00 AM",
+    website: "https://www.thelive.bar",
+    instagram: "",
+    facebook: "",
+    twitter: "",
+    linkedin: "",
+    youtube: "",
+    spotify: ""
   });
 
   useEffect(() => {
@@ -24,7 +31,7 @@ export const Contact = () => {
       .from("site_content")
       .select("*")
       .eq("section_key", "contact_info")
-      .single();
+      .maybeSingle();
 
     if (data && !error) {
       const metadata = data.metadata as {
@@ -32,14 +39,28 @@ export const Contact = () => {
         phone?: string;
         email?: string;
         hours?: string;
+        website?: string;
+        instagram?: string;
+        facebook?: string;
+        twitter?: string;
+        linkedin?: string;
+        youtube?: string;
+        spotify?: string;
       } || {};
       
-      setContactInfo({
-        address: metadata.address || contactInfo.address,
-        phone: metadata.phone || contactInfo.phone,
-        email: metadata.email || contactInfo.email,
-        hours: metadata.hours || contactInfo.hours
-      });
+      setContactInfo(prev => ({
+        address: metadata.address || prev.address,
+        phone: metadata.phone || prev.phone,
+        email: metadata.email || prev.email,
+        hours: metadata.hours || prev.hours,
+        website: metadata.website || prev.website,
+        instagram: metadata.instagram || "",
+        facebook: metadata.facebook || "",
+        twitter: metadata.twitter || "",
+        linkedin: metadata.linkedin || "",
+        youtube: metadata.youtube || "",
+        spotify: metadata.spotify || ""
+      }));
     }
   };
 
@@ -103,8 +124,8 @@ export const Contact = () => {
                   </div>
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Globe className="w-4 h-4" />
-                    <a href="https://www.thelive.bar" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-primary transition-colors">
-                      www.thelive.bar
+                    <a href={contactInfo.website} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-primary transition-colors">
+                      {contactInfo.website.replace('https://', '')}
                     </a>
                   </div>
                 </div>
@@ -114,24 +135,63 @@ export const Contact = () => {
             <Card className="p-6 bg-card border-border">
               <h3 className="font-bold text-lg mb-3">Follow Us</h3>
               <div className="grid grid-cols-3 gap-3">
-                <Button variant="outline" size="icon" className="border-primary text-primary hover:bg-primary/10">
-                  <Instagram className="w-5 h-5" />
-                </Button>
-                <Button variant="outline" size="icon" className="border-secondary text-secondary hover:bg-secondary/10">
-                  <Facebook className="w-5 h-5" />
-                </Button>
-                <Button variant="outline" size="icon" className="border-accent text-accent hover:bg-accent/10">
-                  <Twitter className="w-5 h-5" />
-                </Button>
-                <Button variant="outline" size="icon" className="border-primary text-primary hover:bg-primary/10">
-                  <Linkedin className="w-5 h-5" />
-                </Button>
-                <Button variant="outline" size="icon" className="border-secondary text-secondary hover:bg-secondary/10">
-                  <Youtube className="w-5 h-5" />
-                </Button>
-                <Button variant="outline" size="icon" className="border-accent text-accent hover:bg-accent/10">
-                  <Music2 className="w-5 h-5" />
-                </Button>
+                {contactInfo.instagram && (
+                  <a href={contactInfo.instagram} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="icon" className="w-full border-primary text-primary hover:bg-primary/10">
+                      <Instagram className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
+                {contactInfo.facebook && (
+                  <a href={contactInfo.facebook} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="icon" className="w-full border-secondary text-secondary hover:bg-secondary/10">
+                      <Facebook className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
+                {contactInfo.twitter && (
+                  <a href={contactInfo.twitter} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="icon" className="w-full border-accent text-accent hover:bg-accent/10">
+                      <Twitter className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
+                {contactInfo.linkedin && (
+                  <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="icon" className="w-full border-primary text-primary hover:bg-primary/10">
+                      <Linkedin className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
+                {contactInfo.youtube && (
+                  <a href={contactInfo.youtube} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="icon" className="w-full border-secondary text-secondary hover:bg-secondary/10">
+                      <Youtube className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
+                {contactInfo.spotify && (
+                  <a href={contactInfo.spotify} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="icon" className="w-full border-accent text-accent hover:bg-accent/10">
+                      <Music2 className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
+                {/* Show placeholder icons if no social links are set */}
+                {!contactInfo.instagram && !contactInfo.facebook && !contactInfo.twitter && 
+                 !contactInfo.linkedin && !contactInfo.youtube && !contactInfo.spotify && (
+                  <>
+                    <Button variant="outline" size="icon" className="border-primary text-primary hover:bg-primary/10" disabled>
+                      <Instagram className="w-5 h-5" />
+                    </Button>
+                    <Button variant="outline" size="icon" className="border-secondary text-secondary hover:bg-secondary/10" disabled>
+                      <Facebook className="w-5 h-5" />
+                    </Button>
+                    <Button variant="outline" size="icon" className="border-accent text-accent hover:bg-accent/10" disabled>
+                      <Twitter className="w-5 h-5" />
+                    </Button>
+                  </>
+                )}
               </div>
             </Card>
           </div>

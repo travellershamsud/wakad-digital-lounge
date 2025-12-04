@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { ArrowLeft, Save, Phone, Mail, MapPin, Clock, Globe, Instagram, Facebook, Twitter, Linkedin, Youtube, Music2 } from "lucide-react";
+import { ArrowLeft, Save, Phone, Mail, MapPin, Clock, Globe, Instagram, Facebook, Twitter, Linkedin, Youtube, Music2, Upload, QrCode, Image } from "lucide-react";
 import type { Tables, Json } from "@/integrations/supabase/types";
 
 type SiteContent = Tables<"site_content">;
@@ -24,12 +24,15 @@ interface ContactMetadata {
   linkedin?: string;
   youtube?: string;
   spotify?: string;
+  menu_qr_url?: string;
+  directions_qr_url?: string;
 }
 
 export default function AdminContent() {
   const [contents, setContents] = useState<SiteContent[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
+  const [uploading, setUploading] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -114,6 +117,32 @@ export default function AdminContent() {
   const getMetadataValue = (content: SiteContent, field: keyof ContactMetadata): string => {
     const metadata = content.metadata as ContactMetadata;
     return metadata?.[field] || "";
+  };
+
+  const handleQrCodeUpload = async (id: string, field: 'menu_qr_url' | 'directions_qr_url', file: File) => {
+    setUploading(field);
+    
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${field}-${Date.now()}.${fileExt}`;
+    
+    const { data, error } = await supabase.storage
+      .from('qr-codes')
+      .upload(fileName, file, { upsert: true });
+    
+    if (error) {
+      toast.error("Failed to upload QR code");
+      console.error(error);
+      setUploading(null);
+      return;
+    }
+    
+    const { data: { publicUrl } } = supabase.storage
+      .from('qr-codes')
+      .getPublicUrl(fileName);
+    
+    handleMetadataChange(id, field, publicUrl);
+    toast.success("QR code uploaded successfully");
+    setUploading(null);
   };
 
   if (loading) {
@@ -342,6 +371,66 @@ export default function AdminContent() {
                           onChange={(e) => handleMetadataChange(content.id, "spotify", e.target.value)}
                           placeholder="https://open.spotify.com/..."
                         />
+                      </div>
+                    </div>
+
+                    <h4 className="font-semibold text-lg pt-4">QR Codes</h4>
+                    
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="space-y-3">
+                        <Label className="flex items-center gap-2">
+                          <QrCode className="w-4 h-4" /> Menu QR Code
+                        </Label>
+                        {getMetadataValue(content, "menu_qr_url") && (
+                          <div className="p-3 bg-background rounded-lg border">
+                            <img 
+                              src={getMetadataValue(content, "menu_qr_url")} 
+                              alt="Menu QR Code" 
+                              className="w-32 h-32 mx-auto object-contain"
+                            />
+                          </div>
+                        )}
+                        <div className="flex gap-2">
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) handleQrCodeUpload(content.id, "menu_qr_url", file);
+                            }}
+                            className="flex-1"
+                            disabled={uploading === "menu_qr_url"}
+                          />
+                        </div>
+                        {uploading === "menu_qr_url" && <p className="text-sm text-muted-foreground">Uploading...</p>}
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <Label className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4" /> Directions QR Code
+                        </Label>
+                        {getMetadataValue(content, "directions_qr_url") && (
+                          <div className="p-3 bg-background rounded-lg border">
+                            <img 
+                              src={getMetadataValue(content, "directions_qr_url")} 
+                              alt="Directions QR Code" 
+                              className="w-32 h-32 mx-auto object-contain"
+                            />
+                          </div>
+                        )}
+                        <div className="flex gap-2">
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) handleQrCodeUpload(content.id, "directions_qr_url", file);
+                            }}
+                            className="flex-1"
+                            disabled={uploading === "directions_qr_url"}
+                          />
+                        </div>
+                        {uploading === "directions_qr_url" && <p className="text-sm text-muted-foreground">Uploading...</p>}
                       </div>
                     </div>
                   </div>

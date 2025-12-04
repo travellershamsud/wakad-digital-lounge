@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter, Linkedin, Youtube, Music2, Globe } from "lucide-react";
-import menuQrCode from "@/assets/menu-qr-code.png";
-import addressQrCode from "@/assets/address-qr-code.png";
+import defaultMenuQrCode from "@/assets/menu-qr-code.png";
+import defaultAddressQrCode from "@/assets/address-qr-code.png";
 import { ReservationForm } from "./ReservationForm";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -19,7 +19,9 @@ export const Contact = () => {
     twitter: "",
     linkedin: "",
     youtube: "",
-    spotify: ""
+    spotify: "",
+    menu_qr_url: "",
+    directions_qr_url: ""
   });
 
   useEffect(() => {
@@ -46,6 +48,8 @@ export const Contact = () => {
         linkedin?: string;
         youtube?: string;
         spotify?: string;
+        menu_qr_url?: string;
+        directions_qr_url?: string;
       } || {};
       
       setContactInfo(prev => ({
@@ -59,10 +63,15 @@ export const Contact = () => {
         twitter: metadata.twitter || "",
         linkedin: metadata.linkedin || "",
         youtube: metadata.youtube || "",
-        spotify: metadata.spotify || ""
+        spotify: metadata.spotify || "",
+        menu_qr_url: metadata.menu_qr_url || "",
+        directions_qr_url: metadata.directions_qr_url || ""
       }));
     }
   };
+
+  const menuQrCode = contactInfo.menu_qr_url || defaultMenuQrCode;
+  const addressQrCode = contactInfo.directions_qr_url || defaultAddressQrCode;
 
   return (
     <section id="contact" className="py-20 px-4 bg-background">

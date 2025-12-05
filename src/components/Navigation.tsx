@@ -45,6 +45,7 @@ export const Navigation = () => {
     { label: "Specials", id: "specials" },
     { label: "Menu", id: "menu" },
     { label: "Events", id: "events" },
+    { label: "Loyalty", id: "loyalty" },
     { label: "Contact", id: "contact" },
   ];
 

@@ -6,6 +6,7 @@ import { Gallery } from "@/components/Gallery";
 import { HappyHour } from "@/components/HappyHour";
 import { Menu } from "@/components/Menu";
 import { Events } from "@/components/Events";
+import { LoyaltyProgram } from "@/components/LoyaltyProgram";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { CinematicIntro } from "@/components/CinematicIntro";
@@ -25,6 +26,7 @@ const Index = () => {
       <HappyHour />
       <Menu />
       <Events />
+      <LoyaltyProgram />
       <Contact />
       <Footer />
     </div>

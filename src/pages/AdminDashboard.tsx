@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { LogOut, Calendar, Clock, Users, Phone, Mail, Edit } from "lucide-react";
+import { LogOut, Calendar, Clock, Users, Phone, Mail, Edit, CreditCard } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Reservation = Tables<"reservations">;
@@ -123,7 +123,11 @@ export default function AdminDashboard() {
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => navigate("/admin/content")}>
               <Edit className="w-4 h-4 mr-2" />
-              Edit Website Content
+              Edit Content
+            </Button>
+            <Button variant="outline" onClick={() => navigate("/admin/loyalty")}>
+              <CreditCard className="w-4 h-4 mr-2" />
+              Loyalty
             </Button>
             <Button variant="outline" onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />

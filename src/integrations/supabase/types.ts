@@ -41,6 +41,42 @@ export type Database = {
         }
         Relationships: []
       }
+      loyalty_passes: {
+        Row: {
+          created_at: string
+          discount_percentage: number
+          email: string
+          id: string
+          is_active: boolean
+          name: string
+          pass_code: string
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          discount_percentage?: number
+          email: string
+          id?: string
+          is_active?: boolean
+          name: string
+          pass_code: string
+          phone: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          discount_percentage?: number
+          email?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          pass_code?: string
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       menu_items: {
         Row: {
           available: boolean | null

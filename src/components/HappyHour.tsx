@@ -8,9 +8,7 @@ const specials = [
     days: "Mon - Thu",
     icon: Beer,
     offers: [
-      "Buy 1 Get 1 on all beers",
-      "50% off on house cocktails",
-      "Complimentary starters with drinks"
+      "10% off on all food and drinks"
     ],
     color: "from-primary to-cyan-400",
     badge: "Most Popular"
@@ -21,12 +19,10 @@ const specials = [
     days: "Wednesday",
     icon: Wine,
     offers: [
-      "50% off on selected wines",
-      "Wine & cheese pairing specials",
-      "Live acoustic music"
+      "Free 1st Cocktail/Mocktail for Ladies"
     ],
     color: "from-secondary to-pink-400",
-    badge: "Weekly Special"
+    badge: "Ladies Special"
   },
   {
     title: "Weekend Specials",

@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { LogOut, Calendar, Clock, Users, Phone, Mail, Edit, CreditCard } from "lucide-react";
+import { LogOut, Calendar, Clock, Users, Phone, Mail, Edit, CreditCard, Sparkles } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Reservation = Tables<"reservations">;
@@ -128,6 +128,10 @@ export default function AdminDashboard() {
             <Button variant="outline" onClick={() => navigate("/admin/loyalty")}>
               <CreditCard className="w-4 h-4 mr-2" />
               Loyalty
+            </Button>
+            <Button variant="outline" onClick={() => navigate("/admin/specials")}>
+              <Sparkles className="w-4 h-4 mr-2" />
+              Specials
             </Button>
             <Button variant="outline" onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />

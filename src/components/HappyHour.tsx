@@ -1,45 +1,67 @@
-import { Clock, Beer, Wine, Martini, Percent, Sparkles } from "lucide-react";
+import { Clock, Beer, Wine, Music, Percent, Sparkles, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
-const specials = [
-  {
-    title: "Happy Hour",
-    time: "5 PM - 8 PM",
-    days: "Mon - Thu",
-    icon: Beer,
-    offers: [
-      "10% off on all food and drinks"
-    ],
-    color: "from-primary to-cyan-400",
-    badge: "Most Popular"
-  },
-  {
-    title: "Wine Down Wednesday",
-    time: "All Day",
-    days: "Wednesday",
-    icon: Wine,
-    offers: [
-      "Free 1st Cocktail/Mocktail for Ladies"
-    ],
-    color: "from-secondary to-pink-400",
-    badge: "Ladies Special"
-  },
-  {
-    title: "Weekend Specials",
-    time: "8 PM - 11 PM",
-    days: "Fri - Sat",
-    icon: Martini,
-    offers: [
-      "DJ night with no cover charge",
-      "Premium cocktails at ₹399",
-      "Group packages available"
-    ],
-    color: "from-accent to-purple-400",
-    badge: "Party Time"
-  }
-];
+interface Special {
+  id: string;
+  title: string;
+  time: string;
+  days: string;
+  offers: string[];
+  color: string;
+  badge: string | null;
+  icon_name: string;
+  display_order: number;
+}
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Beer,
+  Wine,
+  Music,
+};
 
 export const HappyHour = () => {
+  const [specials, setSpecials] = useState<Special[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSpecials = async () => {
+      const { data, error } = await supabase
+        .from('specials')
+        .select('*')
+        .eq('is_active', true)
+        .order('display_order');
+
+      if (error) {
+        console.error('Error fetching specials:', error);
+      } else {
+        setSpecials(data || []);
+      }
+      setLoading(false);
+    };
+
+    fetchSpecials();
+  }, []);
+
+  const getIcon = (iconName: string) => {
+    return iconMap[iconName] || Beer;
+  };
+
+  if (loading) {
+    return (
+      <section id="specials" className="py-20 px-4 bg-gradient-dark">
+        <div className="container mx-auto flex justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </section>
+    );
+  }
+
+  if (specials.length === 0) {
+    return null;
+  }
+
   return (
     <section id="specials" className="py-20 px-4 bg-gradient-dark relative overflow-hidden">
       {/* Animated background elements */}
@@ -63,48 +85,53 @@ export const HappyHour = () => {
 
         {/* Specials Grid */}
         <div className="grid md:grid-cols-3 gap-8">
-          {specials.map((special, index) => (
-            <div
-              key={index}
-              className="relative bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 group overflow-hidden"
-            >
-              {/* Gradient top border */}
-              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${special.color}`} />
-              
-              {/* Badge */}
-              <Badge className="absolute top-4 right-4 bg-primary/20 text-primary border-primary/30">
-                {special.badge}
-              </Badge>
+          {specials.map((special) => {
+            const IconComponent = getIcon(special.icon_name);
+            return (
+              <div
+                key={special.id}
+                className="relative bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 group overflow-hidden"
+              >
+                {/* Gradient top border */}
+                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${special.color}`} />
+                
+                {/* Badge */}
+                {special.badge && (
+                  <Badge className="absolute top-4 right-4 bg-primary/20 text-primary border-primary/30">
+                    {special.badge}
+                  </Badge>
+                )}
 
-              {/* Icon */}
-              <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${special.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                <special.icon className="w-8 h-8 text-background" />
+                {/* Icon */}
+                <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${special.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <IconComponent className="w-8 h-8 text-background" />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-2xl font-bold mb-2" style={{ fontFamily: 'Orbitron, sans-serif' }}>
+                  {special.title}
+                </h3>
+
+                {/* Time info */}
+                <div className="flex items-center gap-2 text-muted-foreground mb-4">
+                  <Clock className="w-4 h-4" />
+                  <span>{special.time}</span>
+                  <span className="text-primary">•</span>
+                  <span>{special.days}</span>
+                </div>
+
+                {/* Offers */}
+                <ul className="space-y-3">
+                  {special.offers.map((offer, offerIndex) => (
+                    <li key={offerIndex} className="flex items-start gap-2">
+                      <Percent className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                      <span className="text-muted-foreground">{offer}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              {/* Title */}
-              <h3 className="text-2xl font-bold mb-2" style={{ fontFamily: 'Orbitron, sans-serif' }}>
-                {special.title}
-              </h3>
-
-              {/* Time info */}
-              <div className="flex items-center gap-2 text-muted-foreground mb-4">
-                <Clock className="w-4 h-4" />
-                <span>{special.time}</span>
-                <span className="text-primary">•</span>
-                <span>{special.days}</span>
-              </div>
-
-              {/* Offers */}
-              <ul className="space-y-3">
-                {special.offers.map((offer, offerIndex) => (
-                  <li key={offerIndex} className="flex items-start gap-2">
-                    <Percent className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
-                    <span className="text-muted-foreground">{offer}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Bottom CTA */}

@@ -266,6 +266,51 @@ export type Database = {
         }
         Relationships: []
       }
+      specials: {
+        Row: {
+          badge: string | null
+          color: string
+          created_at: string
+          days: string
+          display_order: number
+          icon_name: string
+          id: string
+          is_active: boolean
+          offers: string[]
+          time: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          badge?: string | null
+          color?: string
+          created_at?: string
+          days: string
+          display_order?: number
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          offers?: string[]
+          time: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          badge?: string | null
+          color?: string
+          created_at?: string
+          days?: string
+          display_order?: number
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          offers?: string[]
+          time?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string | null

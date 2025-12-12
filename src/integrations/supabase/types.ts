@@ -357,6 +357,19 @@ export type Database = {
     Functions: {
       get_user_role: { Args: { user_id: string }; Returns: string }
       is_admin: { Args: { user_id: string }; Returns: boolean }
+      lookup_loyalty_pass: {
+        Args: { identifier: string }
+        Returns: {
+          created_at: string
+          discount_percentage: number
+          email: string
+          id: string
+          is_active: boolean
+          name: string
+          pass_code: string
+          phone: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

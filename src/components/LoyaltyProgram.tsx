@@ -81,16 +81,14 @@ export const LoyaltyProgram = () => {
     setIsLoading(true);
 
     try {
+      const identifier = lookupData.email || lookupData.passCode;
       const { data, error } = await supabase
-        .from('loyalty_passes')
-        .select('*')
-        .or(`email.eq.${lookupData.email},pass_code.eq.${lookupData.passCode}`)
-        .maybeSingle();
+        .rpc('lookup_loyalty_pass', { identifier });
 
       if (error) throw error;
 
-      if (data) {
-        setCurrentPass(data);
+      if (data && data.length > 0) {
+        setCurrentPass(data[0] as LoyaltyPass);
         setLookupData({ email: '', passCode: '' });
       } else {
         toast({ title: 'Pass not found', description: 'No loyalty pass found with that email or code.', variant: 'destructive' });
